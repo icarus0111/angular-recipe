@@ -1,0 +1,19 @@
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+
+<mat-grid-list [cols]="breakpoint" gutterSize="10" (window:resize)="onResize($event)" *ngIf="recipes && recipes.length > 0; else elseTemplate">
+  <mat-grid-tile
+    *ngFor="let recipe of recipes"
+    [colspan]="1">
+      <app-recipe [recipe]="recipe"></app-recipe>
+  </mat-grid-tile>
+</mat-grid-list>
+
+
+<ng-template #elseTemplate>
+  <mat-grid-list [cols]="1" gutterSize="10" (window:resize)="onResize($event)" rowHeight="100px">
+    <mat-grid-tile
+      [colspan]="1">
+      <p>No Recipes for this category!</p>
+    </mat-grid-tile>
+  </mat-grid-list>
+</ng-template>

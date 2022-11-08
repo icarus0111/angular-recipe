@@ -1,0 +1,14 @@
+<mat-form-field class="form-field">
+  <input matInput type="text" placeholder="Search Categories" [(ngModel)]="searchValue" (keyup)="updateCategoryList($event)">
+  <button mat-button *ngIf="searchValue" matSuffix mat-icon-button aria-label="Clear" (click)="searchValue=''">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+<mat-progress-bar mode="indeterminate" *ngIf="submitted"></mat-progress-bar>
+<mat-list>
+  <mat-list-item *ngFor="let category of categories; last as last" (click)="updateRecipe(category._id)">
+    <img matListAvatar [src]="category.image.url" [alt]="category.title" class="big">
+    <p matLine [innerHTML]="category.title | highlight : searchValue"></p>
+    <mat-divider [inset]="false" *ngIf="!last"></mat-divider>
+  </mat-list-item>
+ </mat-list>

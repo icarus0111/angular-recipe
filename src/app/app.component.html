@@ -1,0 +1,14 @@
+<mat-sidenav-container class="sidenav-container"> 
+  <mat-sidenav #drawer class="sidenav"
+    [mode]="side"
+    [(opened)]="isMenuOpened"
+    position="end">
+    <app-category></app-category>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-navigation (isMenuOpened)="drawer.toggle()" (isRecipeOpened)="createRecipe()"></app-navigation>
+    <section>
+      <router-outlet></router-outlet>
+    </section>
+  </mat-sidenav-content>
+</mat-sidenav-container>

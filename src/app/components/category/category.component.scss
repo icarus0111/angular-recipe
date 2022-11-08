@@ -1,0 +1,23 @@
+.mat-list-base .mat-list-item {
+  cursor: pointer;
+  
+  &.mat-list-item-with-avatar {
+    height: 95px;
+  }
+
+  .mat-list-text .mat-line .highlight {
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+  }
+
+  .big.mat-list-avatar {
+    height: 80px;
+    width: 80px;
+  }
+}
+
+.form-field {
+  padding: 20px 30px 0;
+  min-width: 300px;
+}

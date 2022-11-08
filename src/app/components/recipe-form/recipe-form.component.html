@@ -1,0 +1,77 @@
+<form [formGroup]="recipeForm">
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>{{ !editForm? 'New' : 'Edit'}} Recipe{{formTitle ? ': ' + formTitle: ''}}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image *ngIf="editForm && recipeImage" [src]="recipeImage" [alt]="recipeTitle">
+    <img mat-card-image *ngIf="!editForm && recipeImage" src="/assets/img/default.png" alt="Default Image">
+    <mat-card-content class="container">
+      <mat-progress-bar mode="determinate" *ngIf="submitted" [value]="progress"></mat-progress-bar>
+      <mat-form-field hintLabel="Max 100 characters">
+        <input 
+          matInput 
+          #title 
+          maxlength="100" 
+          placeholder="Recipe Title" 
+          required 
+          [disabled]="submitted" 
+          [(ngModel)]="recipeTitle"
+          formControlName="recipeTitle">
+        <mat-hint align="end">{{title.value?.length || 0}}/100</mat-hint>
+        <mat-error *ngIf="hasError('recipeTitle', 'required')">Title is required</mat-error>
+        <mat-error *ngIf="hasError('recipeTitle', 'maxlength')">You have more than 100 characters</mat-error>
+      </mat-form-field>
+    
+      <mat-form-field>
+        <mat-select 
+          matNativeControl 
+          required 
+          placeholder="Recipe Category" 
+          [disabled]="submitted" 
+          [(ngModel)]="recipeCategory"
+          formControlName="recipeCategory">
+          <mat-option *ngFor="let category of categories" [value]="category._id">
+            {{category.title}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="hasError('recipeCategory', 'required')">Category is required</mat-error>
+      </mat-form-field>
+    
+      <mat-form-field hintLabel="Max 300 characters">
+        <textarea 
+          matInput 
+          #description 
+          maxlength="300" 
+          placeholder="Recipe Description" 
+          [disabled]="submitted"
+          [required]="!editForm"
+          [(ngModel)]="recipeDescription"
+          formControlName="recipeDescription"></textarea>
+        <mat-hint align="end">{{description.value?.length || 0}}/300</mat-hint>
+        <mat-error *ngIf="hasError('recipeDescription', 'maxlength')">You have more than 300 characters</mat-error>
+      </mat-form-field>
+    
+      <div>
+        <p>Add Image</p>
+        <input #imageInput type="file" name="image" accept="image/x-png,image/gif,image/jpeg" (change)="fileProgress($event)">
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" [disabled]="!recipeForm.valid" type="button" (click)="createRecipe(recipeForm.value)">
+        <mat-icon class="icon" aria-hidden="false" aria-label="save icon">save</mat-icon>
+        {{ !editForm? 'Save' : 'Update'}} Recipe
+      </button>
+      <button *ngIf="editForm; else closeModalTemplate" mat-raised-button (click)="deleteRecipe(recipeId)" color="warn" type="button">
+        <mat-icon class="icon" aria-hidden="false" aria-label="delete icon">delete</mat-icon>
+        Delete
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  </form>
+
+  <ng-template #closeModalTemplate>
+    <button mat-raised-button (click)="closeModal()" type="button">
+      <mat-icon class="icon" aria-hidden="false" aria-label="close icon">close</mat-icon>
+      Cancel
+    </button>
+  </ng-template>

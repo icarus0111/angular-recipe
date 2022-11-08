@@ -1,0 +1,35 @@
+# This is a sample build configuration for Docker.
+# Check our guides at https://confluence.atlassian.com/x/O1toN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: atlassian/default-image:2
+
+pipelines:
+  default:        
+    - step:
+        caches:
+          - node
+          - docker
+        services:
+          - docker
+        # set HEROKU_API_KEY and HEROKU_APP_NAME environment variables
+        # set clone `depth: full' as described here: https://confluence.atlassian.com/x/Y9-5Mw
+        name: Deploy to Heroku
+        deployment: production   # set to test, staging or production
+        # trigger: manual  # uncomment to have a manual step
+        script:
+          - export IMAGE_NAME=$HEROKU_APP_NAME:$BITBUCKET_COMMIT
+          # build the Docker image (this will use the Dockerfile in the root of the repo)
+          - docker build -t $IMAGE_NAME .
+          # authenticate with the Heroku Docker Hub registry
+          - docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+          # tag the new Docker image to Heroku Docker registry
+          - docker tag $IMAGE_NAME registry.heroku.com/$HEROKU_APP_NAME/web
+          # push the new Docker image to the Heroku Docker registry
+          - docker push registry.heroku.com/$HEROKU_APP_NAME/web
+          - sh ./heroku.release.sh
+definitions:
+  services:
+    docker:
+      memory: 3072

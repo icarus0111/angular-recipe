@@ -1,0 +1,31 @@
+
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+  <mat-card class="card" fxFlex="500px" fxFlex.xs="100%">
+    <mat-card-header>
+      <mat-card-title>{{recipe && recipe.title}}</mat-card-title>
+      <mat-card-subtitle>
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip color="primary">{{recipe && recipe.category && recipe.category.title}}</mat-chip>
+          </mat-chip-list>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image *ngIf="recipe && recipe.image" [src]="recipe.image.url" [alt]="recipe && recipe.title">
+    <mat-card-content>
+      <p>
+        {{recipe && recipe.description}}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button [routerLink]="['/all-receipes', recipe && recipe._id, 'edit']" color="primary">
+        <mat-icon class="icon" aria-hidden="false" aria-label="edit icon">
+          edit
+        </mat-icon>
+        Edit
+      </button>
+      <button mat-raised-button (click)="deleteRecipe(recipe._id)" color="warn">
+        <mat-icon class="icon" aria-hidden="false" aria-label="delete icon">delete</mat-icon>
+        Delete
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</section>

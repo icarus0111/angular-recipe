@@ -1,0 +1,26 @@
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>{{recipe && recipe.title}}</mat-card-title>
+  </mat-card-header>
+  <img mat-card-image *ngIf="recipe && recipe.image" [src]="recipe && recipe.image && recipe.image.url" [alt]="recipe && recipe.title">
+  <img mat-card-image *ngIf="recipe && !recipe.image" src="/assets/img/default.png" alt="Default Image">
+  <mat-progress-bar mode="determinate" *ngIf="deleting" [value]="progress"></mat-progress-bar>
+  <mat-card-content>
+    <p>
+      {{recipe && recipe.description ? recipe.description : ''}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button [routerLink]="['/all-receipes', recipe._id]" color="primary" [disabled]="deleting">
+      Read More
+    </button>
+    <button mat-raised-button [routerLink]="['/all-receipes', recipe._id, 'edit']" [disabled]="deleting">
+      <mat-icon class="icon" aria-hidden="false" aria-label="edit icon">
+        edit
+      </mat-icon>
+    </button>
+    <button mat-raised-button color="warn" (click)="deleteRecipe(recipe._id)" [disabled]="deleting">
+      <mat-icon class="icon" aria-hidden="false" aria-label="delete icon">delete</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

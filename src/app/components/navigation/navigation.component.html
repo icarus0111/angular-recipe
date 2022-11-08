@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span><a routerLink="/">{{title}}</a></span>
+    <span class="spacer"></span>
+    <mat-icon type="button" class="icon" aria-hidden="false" aria-label="add icon" (click)="openDialog()">add</mat-icon>
+    <mat-icon type="button"
+      aria-label="Toggle sidenav"
+      mat-icon-button
+      (click)="toggleMenu()"
+      class="icon" aria-hidden="false" aria-label="menu icon">menu</mat-icon>
+  </mat-toolbar-row>
+</mat-toolbar>
